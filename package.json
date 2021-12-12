@@ -10,11 +10,23 @@
     "start": "nuxt start --port 8033",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "precommit": "npm run lint"
+    "precommit": "npm run lint",
+    "create-db-local": "sequelize db:create",
+    "create-db-server": "WHERE=server sequelize db:create",
+    "drop-db-local": "sequelize db:drop",
+    "drop-db-server": "WHERE=server sequelize db:drop",
+    "migrate-local": "sequelize db:migrate",
+    "migrate-server": "WHERE=server sequelize db:migrate",
+    "status-local": "sequelize db:migrate:status",
+    "status-server": "WHERE=server sequelize db:status",
+    "undo-local": "sequelize db:migrate:undo",
+    "undo-server": "WHERE=server sequelize db:undo"
   },
   "dependencies": {
     "bootstrap-vue": "^2.21.2",
-    "nuxt": "^2.0.0"
+    "mysql2": "^2.3.3",
+    "nuxt": "^2.0.0",
+    "sequelize": "^6.12.0-beta.2"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

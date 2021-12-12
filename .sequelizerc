@@ -1,0 +1,7 @@
+const path = require('path');
+
+const configname = process.env.WHERE == 'server' ? 'config.server.json' : 'config.local.json'
+
+module.exports = {
+ config: path.resolve('config', configname)
+};
