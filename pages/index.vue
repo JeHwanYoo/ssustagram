@@ -1,65 +1,79 @@
 <template>
-  <section class="container">
-    <div>
-      <app-logo/>
-      <h1 class="title">
-        ssustagram
-      </h1>
-      <h2 class="subtitle">
-        웹 프로그래밍 설계 및 실습 기말 프로젝트
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green">Documentation</a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey">GitHub</a>
-      </div>
-    </div>
-  </section>
+  <b-container>
+    <b-row>
+      <b-col>
+        <b-jumbotron
+          class="my-5 text-center"
+          header="SSUSTAGRAM"
+          lead="친구들과 사진을 공유하며 재미있게 놀아보세요."
+        >
+          <hr />
+          <b-form @submit="onSubmit">
+            <app-input
+              label="유저 id"
+              placeholder="id를 입력해주세요."
+              @input="onUserIdInput"
+            />
+            <app-input
+              label="비밀번호"
+              placeholder="password를 입력해주세요."
+              @input="onPasswordInput"
+              type="password"
+            />
+            <app-button text="로그인" type="submit" variant="primary" />
+            <app-button
+              text="회원가입"
+              type="button"
+              variant="success"
+              @click="goAccountPage"
+            />
+          </b-form>
+        </b-jumbotron>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
-import AppLogo from '~/components/AppLogo.vue'
+import AppButton from "~/components/AppButton.vue";
+import AppInput from "~/components/AppInput.vue";
+import isEmpty from "validator/lib/isEmpty";
 
 export default {
   components: {
-    AppLogo
-  }
-}
+    AppButton,
+    AppInput,
+  },
+  data() {
+    return {
+      userid: "",
+      password: "",
+    };
+  },
+  computed: {
+    validAll() {
+      return !isEmpty(this.userid) && !isEmpty(this.password);
+    },
+  },
+  methods: {
+    onSubmit(event) {
+      event.preventDefault();
+      if (this.validAll) {
+        this.$router.replace({ name: "home" });
+      } else {
+        alert("아이디 혹은 패스워드를 입력하지 않았습니다.");
+      }
+    },
+    goAccountPage() {
+      this.$router.push({ name: "account" });
+    },
+    onUserIdInput(userid) {
+      this.userid = userid;
+    },
+    onPasswordInput(password) {
+      this.password = password;
+    },
+  },
+};
 </script>
-
-<style>
-.container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
-</style>
 
