@@ -1,15 +1,22 @@
 <template>
-  <b-container class="my-2">
-    <b-row>
-      <b-col>
-        <h1 class="display-5">SSUSTAGRAM</h1>
-      </b-col>
-    </b-row>
-  </b-container>
+  <div>
+    <section class="search">
+      <home-search />
+      <hr />
+    </section>
+    <section class="posts"></section>
+  </div>
 </template>
 
 <script>
-export default {};
+import HomeSearch from "~/components/HomeSearch.vue";
+
+export default {
+  layout: "defaultWithTitle",
+  components: {
+    HomeSearch,
+  },
+};
 </script>
 
 <style>

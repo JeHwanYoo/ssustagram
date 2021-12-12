@@ -38,4 +38,5 @@ module.exports = {
     },
   },
   modules: ["bootstrap-vue/nuxt"],
+  plugins: ["~/plugins/bootstrap-vue-icons.js"],
 };

@@ -1,5 +1,19 @@
 <template>
-  <b-btn :type="type" :variant="variant" :herf="href" :size="size" :block="block" @click="onClick">{{ text }}</b-btn>
+  <b-btn
+    :type="type"
+    :variant="variant"
+    :herf="href"
+    :size="size"
+    :block="block"
+    @click="onClick"
+  >
+    <template v-if="isIcon">
+      <b-icon :icon="icon"></b-icon>
+    </template>
+    <template v-else>
+      {{ text }}
+    </template>
+  </b-btn>
 </template>
 
 <script>
@@ -7,33 +21,42 @@ export default {
   props: {
     type: {
       type: String,
-      default: ''
+      default: "",
     },
     variant: {
       type: String,
-      default: ''
+      default: "",
     },
     text: {
       type: String,
-      default: ''
+      default: "",
+    },
+    icon: {
+      type: String,
+      default: "",
     },
     href: {
       type: String,
-      default: ''
+      default: "",
     },
     size: {
       type: String,
-      default: ''
+      default: "",
     },
     block: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
+  },
+  computed: {
+    isIcon() {
+      return this.icon.length > 0;
+    },
   },
   methods: {
     onClick(evt) {
-      this.$emit('click', evt)
-    }
-  }
-}
+      this.$emit("click", evt);
+    },
+  },
+};
 </script>
