@@ -1,0 +1,26 @@
+{
+  "name": "ssustagram",
+  "version": "1.0.0",
+  "description": "웹 프로그래밍 설계 및 실습 기말 프로젝트",
+  "author": "JeHwanYoo <yoojehwan1875@gmail.com>",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt --port 10033",
+    "build": "nuxt build",
+    "start": "nuxt start --port 8033",
+    "generate": "nuxt generate",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "precommit": "npm run lint"
+  },
+  "dependencies": {
+    "bootstrap-vue": "^2.21.2",
+    "nuxt": "^2.0.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^4.19.1",
+    "eslint-friendly-formatter": "^4.0.1",
+    "eslint-loader": "^2.1.1",
+    "eslint-plugin-vue": "^4.0.0"
+  }
+}
