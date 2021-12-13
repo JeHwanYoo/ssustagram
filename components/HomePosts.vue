@@ -32,8 +32,13 @@
                   cols="6"
                   v-if="post.me"
                 >
-                  <b-btn variant="warning" size="sm">수정</b-btn>
-                  <b-btn variant="danger" size="sm">삭제</b-btn>
+                  <b-btn
+                    variant="warning"
+                    class="mb-2 py-1 w-75"
+                    :to="{ name: 'edit' }"
+                  >
+                    수정
+                  </b-btn>
                 </b-col>
               </b-row>
             </b-container>
