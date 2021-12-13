@@ -25,7 +25,7 @@
       </b-col>
       <b-col class="border px-0" cols="8">
         <b-container fluid>
-          <b-row style="height: 560px; overflow-y: auto">
+          <b-row style="height: 560px; overflow-y: auto" ref="chat-box">
             <b-col>
               <b-list-group>
                 <b-list-group-item
@@ -204,6 +204,12 @@ export default {
         return "<div class='text-right px-1'><small>나</small></div>";
       else return "<div class='px-1'><small>상대</small></div>";
     },
+    scrollDown() {
+      this.$refs["chat-box"].scrollTop = this.$refs["chat-box"].scrollHeight;
+    },
+  },
+  mounted() {
+    this.scrollDown();
   },
 };
 </script>
