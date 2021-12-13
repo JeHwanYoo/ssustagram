@@ -5,8 +5,7 @@
         <b-card class="mb-3">
           <app-carousel :images="post.files" />
           <b-card-body>
-            <b-card-text>
-              {{ post.text }}
+            <b-card-text v-html="applyForHashtags(post.text, post.hashtags)">
             </b-card-text>
           </b-card-body>
           <b-card-footer class="px-1 py-1">
@@ -17,7 +16,7 @@
                     {{ post.name }}({{ post.userid }})
                   </div>
                   <div style="font-size: 5px">
-                    {{ post.created_at | toDate }}
+                    {{ post.created_at | datetime }}
                   </div>
                 </b-col>
                 <b-col
@@ -68,8 +67,20 @@ export default {
     };
   },
   filters: {
-    toDate(milisec) {
+    datetime(milisec) {
       return moment(milisec).format("YYYY-MM-DD HH:mm");
+    },
+  },
+  methods: {
+    applyForHashtags(text, hashtags) {
+      let newText = text;
+      for (let hashtag of hashtags) {
+        const url = `/posts?query=${hashtag.slice(1)}&type=h&limit=6&page=1`;
+        newText = newText
+          .split(hashtag)
+          .join(`<a href='${url}'>${hashtag}</a>`); // replaceAll
+      }
+      return newText;
     },
   },
   mounted() {
