@@ -22,14 +22,17 @@
       <b-col v-for="(encoded, no) in encodeds" :key="no" cols="2">
         <b-img thumbnail :src="encoded" width="600" height="600"></b-img>
         <div class="my-1 text-center">
-          <b-btn variant="light" size="sm">
-            <b-icon
-              variant="danger"
-              icon="x-octagon"
-              @click="removeFile(no)"
-            ></b-icon>
+          <b-btn variant="light" size="sm" @click="removeFile(no)">
+            <b-icon variant="danger" icon="x-octagon"></b-icon>
           </b-btn>
-          <b-btn variant="light" size="sm">
+          <input
+            :ref="`hidden-input-${no}`"
+            class="d-none"
+            type="file"
+            accept="image/*"
+            @input="(event) => onReplaced(event.target.files[0], no)"
+          />
+          <b-btn variant="light" size="sm" @click="editFile(no)">
             <b-icon variant="warning" icon="pencil-square"></b-icon>
           </b-btn>
         </div>
@@ -50,7 +53,7 @@
 
 <script>
 // 참고: https://doolyit.tistory.com/182
-function encodingImage(encodeds, file, width, height) {
+function encodingImage(encodeds, file, width, height, i = -1) {
   const img = document.createElement("img");
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
@@ -62,7 +65,11 @@ function encodingImage(encodeds, file, width, height) {
   reader.onload = (e) => {
     img.onload = () => {
       ctx.drawImage(img, 0, 0, width, height);
-      encodeds.push(canvas.toDataURL("image/jpg"));
+      if (i === -1) {
+        encodeds.push(canvas.toDataURL("image/jpg"));
+      } else {
+        encodeds.splice(i, 1, canvas.toDataURL("image/jpg"));
+      }
     };
     img.src = e.target.result;
   };
@@ -110,6 +117,12 @@ export default {
     },
     removeFile(index) {
       this.encodeds.splice(index, 1);
+    },
+    editFile(index) {
+      this.$refs[`hidden-input-${index}`][0].click();
+    },
+    onReplaced(file, no) {
+      encodingImage(this.encodeds, file, 600, 600, no);
     },
   },
   mounted() {
