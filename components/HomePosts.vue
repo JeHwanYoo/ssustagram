@@ -1,6 +1,6 @@
 <template>
   <b-container fluid>
-    <b-row>
+    <b-row v-if="posts && posts.length > 0">
       <b-col cols="4" v-for="post in posts" :key="post.imgid">
         <b-card class="mb-3">
           <app-carousel :images="post.files" />
@@ -39,6 +39,11 @@
             </b-container>
           </b-card-footer>
         </b-card>
+      </b-col>
+    </b-row>
+    <b-row class="my-5" v-else>
+      <b-col class="text-center" cols="12">
+        <strong>검색 결과가 없습니다.</strong>
       </b-col>
     </b-row>
     <b-row>
