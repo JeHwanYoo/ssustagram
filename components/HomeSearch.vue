@@ -1,13 +1,13 @@
 <template>
-  <b-container fluid class="my-2">
+  <b-container fluid>
     <b-row>
-      <b-col class="px-0 pr-2" cols="10">
+      <b-col class="pr-1" cols="10">
         <app-input
           placeholder="검색어를 입력하세요."
           @input="onQueryInput"
         ></app-input>
       </b-col>
-      <b-col class="px-0" cols="2">
+      <b-col cols="2">
         <app-button
           variant="primary"
           icon="search"

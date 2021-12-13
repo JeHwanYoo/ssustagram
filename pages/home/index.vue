@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="my-3">
     <section class="search">
       <home-search />
       <hr />

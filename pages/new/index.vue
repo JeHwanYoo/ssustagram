@@ -1,5 +1,5 @@
 <template>
-  <app-upload @upload="onUpload"></app-upload>
+  <app-upload class="my-3" @upload="onUpload"></app-upload>
 </template>
 
 <script>
