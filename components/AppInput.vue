@@ -8,6 +8,7 @@
       v-model="inputData"
       @input="onInput"
       :state="isInput && isFeedback ? validation : null"
+      :class="inputClass"
     ></b-form-input>
     <template v-if="isInput && isFeedback">
       <b-form-invalid-feedback :state="validation">{{
@@ -58,6 +59,10 @@ export default {
     validation: {
       type: Boolean,
       default: true,
+    },
+    inputClass: {
+      type: String,
+      default: "",
     },
   },
   computed: {

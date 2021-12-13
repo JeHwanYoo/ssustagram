@@ -6,6 +6,7 @@
     :size="size"
     :block="block"
     @click="onClick"
+    :class="buttonClass"
   >
     <template v-if="isIcon">
       <b-icon :icon="icon"></b-icon>
@@ -46,6 +47,10 @@ export default {
     block: {
       type: Boolean,
       default: true,
+    },
+    buttonClass: {
+      type: String,
+      default: "",
     },
   },
   computed: {

@@ -15,11 +15,11 @@
             <span>({{ userId }})</span>
           </b-card-text>
           <b-card-text>
-            <sapn>팔로워: </sapn>
+            <span>팔로워: </span>
             <div class="d-inline-block" style="width: 80px">
               <strong>{{ follower }}</strong>
             </div>
-            <sapn>팔로우: </sapn>
+            <span>팔로우: </span>
             <div class="d-inline-block" style="width: 80px">
               <strong>{{ follow }}</strong>
             </div>
