@@ -15,7 +15,7 @@
     <b-nav-item :to="{ name: 'msg' }" exact exact-active-class="active"
       >메세지</b-nav-item
     >
-    <b-btn @click="logout">로그아웃</b-btn>
+    <b-btn @click="logout" size="sm" variant="outline-dark">로그아웃</b-btn>
   </b-nav>
 </template>
 

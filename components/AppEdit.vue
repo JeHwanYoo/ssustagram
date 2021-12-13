@@ -4,8 +4,7 @@
       <b-col>
         <b-form-file
           ref="file-input"
-          v-model="files"
-          placeholder="파일을 선택하거나 이곳으로 드롭해보세요."
+          placeholder="파일을 추가하려면 여기를 누르세요."
           drop-placeholder="Drop file here..."
           multiple
           accept="image/*"
@@ -13,7 +12,7 @@
         ></b-form-file>
       </b-col>
     </b-row>
-    <b-row class="my-2" v-if="files && files.length > 0">
+    <b-row class="my-2" v-if="encodeds && encodeds.length > 0">
       <b-col>
         <h2 class="display-5">미리보기</h2>
       </b-col>
@@ -22,14 +21,26 @@
       <b-col cols="1"></b-col>
       <b-col v-for="(encoded, no) in encodeds" :key="no" cols="2">
         <b-img thumbnail :src="encoded" width="600" height="600"></b-img>
+        <div class="my-1 text-center">
+          <b-btn variant="light" size="sm">
+            <b-icon
+              variant="danger"
+              icon="x-octagon"
+              @click="removeFile(no)"
+            ></b-icon>
+          </b-btn>
+          <b-btn variant="light" size="sm">
+            <b-icon variant="warning" icon="pencil-square"></b-icon>
+          </b-btn>
+        </div>
       </b-col>
     </b-row>
-    <b-row class="my-5" v-if="files && files.length > 0">
+    <b-row class="my-5" v-if="encodeds && encodeds.length > 0">
       <b-col cols="12" class="text-center">
         <b-textarea v-model="text"></b-textarea>
       </b-col>
     </b-row>
-    <b-row v-if="files && files.length > 0">
+    <b-row v-if="encodeds && encodeds.length > 0">
       <b-col cols="12" class="text-center">
         <b-btn size="lg" variant="success" @click="upload">업로드!</b-btn>
       </b-col>
@@ -47,7 +58,6 @@ function encodingImage(encodeds, file, width, height) {
 
   canvas.width = width;
   canvas.height = height;
-  encodeds.splice(0, encodeds.length);
 
   reader.onload = (e) => {
     img.onload = () => {
@@ -61,22 +71,36 @@ function encodingImage(encodeds, file, width, height) {
 }
 
 export default {
+  props: {
+    initFiles: {
+      type: Array,
+      default: () => [],
+    },
+    initText: {
+      type: String,
+      default: "",
+    },
+  },
   data() {
     return {
-      files: null,
-      text: "",
       encodeds: [],
+      text: "",
     };
   },
   methods: {
-    onInput() {
-      if (this.files.length > 5) {
+    onInput(files) {
+      const newLength = files.length;
+      const prevLength = this.encodeds.length;
+
+      if (newLength + prevLength > 5) {
         alert("업로드는 최대 5개까지 가능합니다.");
-        this.$refs["file-input"].reset();
+      } else {
+        for (const file of files) {
+          encodingImage(this.encodeds, file, 600, 600);
+        }
       }
-      for (const file of this.files) {
-        encodingImage(this.encodeds, file, 600, 600);
-      }
+
+      this.$refs["file-input"].reset();
     },
     upload() {
       this.$emit("upload", {
@@ -84,6 +108,13 @@ export default {
         text: this.text,
       });
     },
+    removeFile(index) {
+      this.encodeds.splice(index, 1);
+    },
+  },
+  mounted() {
+    this.encodeds = this.initFiles;
+    this.text = this.initText;
   },
 };
 </script>
