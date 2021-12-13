@@ -24,6 +24,11 @@
         <b-img thumbnail :src="encoded.base64" width="600" height="600"></b-img>
       </b-col>
     </b-row>
+    <b-row class="my-5" v-if="files && files.length > 0">
+      <b-col cols="12" class="text-center">
+        <b-textarea v-model="text"></b-textarea>
+      </b-col>
+    </b-row>
     <b-row v-if="files && files.length > 0">
       <b-col cols="12" class="text-center">
         <b-btn size="lg" variant="success" @click="upload">업로드!</b-btn>
@@ -62,6 +67,7 @@ export default {
   data() {
     return {
       files: null,
+      text: "",
       encodeds: [],
     };
   },
@@ -76,7 +82,10 @@ export default {
       }
     },
     upload() {
-      this.$emit("upload", this.encodeds);
+      this.$emit("upload", {
+        encodeds: this.encodeds,
+        text: this.text.replace(/\n/g, "<br />"),
+      });
     },
   },
 };

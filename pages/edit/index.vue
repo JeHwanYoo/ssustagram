@@ -11,8 +11,8 @@ export default {
     AppUpload,
   },
   methods: {
-    onUpload(encodeds) {
-      console.log(encodeds);
+    onUpload({ encodeds, text }) {
+      console.log(encodeds, text);
     },
   },
 };
