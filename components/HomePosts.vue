@@ -12,8 +12,15 @@
             <b-container fluid>
               <b-row>
                 <b-col class="px-2" style="line-height: 24px" cols="6">
-                  <div class="text-truncate" style="font-size: 5px">
-                    {{ post.name }}({{ post.userid }})
+                  <div>
+                    <b-btn
+                      class="px-0 py-0 text-truncate"
+                      style="font-size: 5px"
+                      variant="link"
+                      size="sm"
+                    >
+                      {{ post.name }}({{ post.userid }})
+                    </b-btn>
                   </div>
                   <div style="font-size: 5px">
                     {{ post.created_at | datetime }}
@@ -75,10 +82,12 @@ export default {
     applyForHashtags(text, hashtags) {
       let newText = text;
       for (let hashtag of hashtags) {
-        const url = `/posts?query=${hashtag.slice(1)}&type=h&limit=6&page=1`;
+        // const url = `/posts?query=${hashtag}&type=h&limit=6&page=1`;
         newText = newText
           .split(hashtag)
-          .join(`<a href='${url}'>${hashtag}</a>`); // replaceAll
+          .join(
+            `<button class="btn btn-link px-0 py-0" style="vertical-align: baseline">${hashtag}</button>`
+          ); // replaceAll
       }
       return newText;
     },
