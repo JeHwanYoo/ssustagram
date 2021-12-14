@@ -129,9 +129,13 @@ export default {
           this.password,
           this.passwordCheck
         );
-        const data = await this.$axios.get("/api/get");
-        console.log(data);
-        // this.$router.replace({ name: "home" });
+        try {
+          const data = await this.$axios.get("/api/account/users/formail0001");
+          console.log(data);
+          // this.$router.replace({ name: "home" });
+        } catch (e) {
+          alert("입력 형식이 잘못되었습니다.");
+        }
       } else {
         alert("입력 형식이 잘못되었습니다.");
       }

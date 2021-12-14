@@ -1,12 +1,13 @@
 import express from "express";
-import { sequelize } from "../models/";
+import { sequelize } from "../models";
+import accounts from "./accounts";
 
 const app = express();
 app.use(express.json());
 
-app.get("/get", function (req, res) {
-  res.send("foo");
-});
+sequelize.sync();
+
+app.use("/account", accounts);
 
 module.exports = {
   path: "/api",
