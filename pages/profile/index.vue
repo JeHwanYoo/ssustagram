@@ -43,18 +43,25 @@ export default {
   layout: "defaultWithTitle",
   data() {
     return {
-      firstWord: "나",
-      userId: "qwer0000",
-      userName: "나임",
+      firstWord: "a",
+      userId: "",
+      userName: "",
       currentDate: moment().format("YYYY-MM-DD HH:mm:ss"),
-      follow: 100,
-      follower: 100,
+      follow: 0,
+      follower: 0,
     };
   },
-  mounted() {
+  async mounted() {
     setInterval(() => {
       this.currentDate = moment().format("YYYY-MM-DD HH:mm:ss");
     }, 1000);
+
+    const { data } = await this.$axios.get("/api/my");
+    this.userId = data.userid;
+    this.userName = data.name;
+    this.firstWord = data.name[0];
+    this.follow = data.n_follows;
+    this.follower = data.n_followers;
   },
 };
 </script>

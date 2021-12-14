@@ -41,7 +41,8 @@ module.exports = () => {
           }
 
           const user = {
-            id: result.userid,
+            userid: result.userid,
+            name: result.name,
           };
 
           if (bcrypt.compareSync(password, result.password)) {
