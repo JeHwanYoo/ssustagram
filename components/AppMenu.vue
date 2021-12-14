@@ -23,8 +23,13 @@
 export default {
   computed: {},
   methods: {
-    logout() {
-      this.$router.replace({ path: "/" });
+    async logout() {
+      try {
+        await this.$axios.post("/api/logout");
+        this.$router.replace({ path: "/" });
+      } catch (e) {
+        alert("잠시후에 다시 시도해주세요.");
+      }
     },
   },
 };

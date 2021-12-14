@@ -7,6 +7,7 @@ import login from "./login";
 import passport from "passport";
 import session from "express-session";
 import passportConfig from "./passport";
+import logout from "./logout";
 
 require("dotenv").config();
 
@@ -27,6 +28,7 @@ passportConfig();
 app.use("/account", accounts);
 app.use("/auth", auth);
 app.use("/login", login);
+app.use("/logout", logout);
 
 module.exports = {
   path: "/api",

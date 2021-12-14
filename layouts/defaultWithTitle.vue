@@ -25,6 +25,13 @@ export default {
   components: {
     AppMenu,
   },
+  async mounted() {
+    try {
+      await this.$axios.get("/api/login/check");
+    } catch (e) {
+      this.$router.replace({ path: "/" });
+    }
+  },
 };
 </script>
 
