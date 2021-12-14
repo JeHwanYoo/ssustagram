@@ -44,6 +44,7 @@
               <app-input
                 inputClass="rounded-0 border-dark"
                 placeholder="메세지를 보내보세요!"
+                @input="onInput"
               />
             </b-col>
             <b-col class="px-0" cols="2">
@@ -52,6 +53,7 @@
                 variant="outline-dark"
                 icon="arrow-return-right"
                 buttonClass="rounded-0"
+                @click="send"
               />
             </b-col>
           </b-row>
@@ -76,22 +78,53 @@ export default {
       follows: [],
       selected: "",
       chats: [],
+      you: "",
+      content: "",
     };
   },
   methods: {
+    onInput(m) {
+      this.content = m;
+    },
+    async send() {
+      try {
+        const index = this.follows.findIndex(
+          (v) => v.room_id === this.selected
+        );
+
+        await this.$axios.post(`/api/rooms/${this.selected}`, {
+          content: this.content,
+        });
+
+        const resposne = await this.$axios.get("/api/rooms");
+        this.follows = resposne.data;
+        this.select(this.follows[index].room_id);
+        this.scrollDown();
+      } catch (e) {
+        console.log(e);
+        alert("메세지 전송 실패!");
+      }
+    },
     isActive(room_id) {
       return this.selected === room_id;
     },
-    select(room_id) {
+    async select(room_id) {
+      this.content = "";
       this.selected = room_id;
+
+      const response = await this.$axios.get(`/api/rooms/${room_id}`);
+      const { you, room } = response.data;
+
+      this.you = you;
+      this.chats = JSON.parse(room.messages);
     },
     getFloat(from) {
-      if (from === "b")
+      if (from === this.you)
         return "float-right text-right border px-2 py-2 rounded border-info mb-0";
       else return "float-left text-left border px-2 py-2 rounded mb-0";
     },
     getWhom(from) {
-      if (from === "b")
+      if (from === this.you)
         return "<div class='text-right px-1'><small>나</small></div>";
       else return "<div class='px-1'><small>상대</small></div>";
     },
@@ -102,9 +135,8 @@ export default {
   async mounted() {
     const resposne = await this.$axios.get("/api/rooms");
     this.follows = resposne.data;
-    console.log(this.follows);
-    this.selected = this.follows[0].room_id;
-    // this.scrollDown();
+    this.select(this.follows[0].room_id);
+    this.scrollDown();
   },
 };
 </script>

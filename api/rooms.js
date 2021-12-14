@@ -46,4 +46,58 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:room_id", async (req, res) => {
+  try {
+    const { user } = req.session.passport;
+    const { room_id } = req.params;
+    const room = await Rooms.findOne({
+      where: {
+        room_id,
+      },
+    });
+    res.send({
+      you: user.userid,
+      room,
+    });
+  } catch (e) {
+    sendErrorCode(res, e);
+  }
+});
+
+router.post("/:room_id", async (req, res) => {
+  try {
+    const { user } = req.session.passport;
+    const { room_id } = req.params;
+    const { content } = req.body;
+    const room = await Rooms.findOne({
+      where: {
+        room_id,
+      },
+    });
+
+    const messages = JSON.parse(room.messages);
+
+    messages.push({
+      content,
+      from: user.userid,
+    });
+
+    await Rooms.update(
+      {
+        messages,
+      },
+      {
+        where: {
+          room_id,
+        },
+      }
+    );
+
+    res.send("ok");
+  } catch (e) {
+    console.log(e);
+    sendErrorCode(res, e);
+  }
+});
+
 export default router;
