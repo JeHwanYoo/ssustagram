@@ -10,6 +10,7 @@ import passportConfig from "./passport";
 import logout from "./logout";
 import my from "./my";
 import images from "./images";
+import posts from "./posts";
 
 require("dotenv").config();
 
@@ -33,6 +34,7 @@ app.use("/login", login);
 app.use("/logout", logout);
 app.use("/my", my);
 app.use("/images", images);
+app.use("/posts", posts);
 
 module.exports = {
   path: "/api",

@@ -26,9 +26,19 @@ export default {
   },
   data() {
     return {
-      posts: mockImgPosts,
+      posts: [],
       pagination: mockPagination,
     };
+  },
+  async mounted() {
+    const response = await this.$axios.get("/api/posts");
+    const images = response.data;
+
+    for (let i = 0; i < images.length; i++) {
+      images[i]["files"] = JSON.parse(images[i]["files"]);
+      images[i]["hashtags"] = JSON.parse(images[i]["hashtags"]);
+      this.posts.push(images[i]);
+    }
   },
 };
 </script>
