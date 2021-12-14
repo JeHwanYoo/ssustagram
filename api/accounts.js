@@ -1,7 +1,10 @@
 import { Router } from "express";
-import { Accounts } from "../models";
+import { Accounts, EmailAuths } from "../models";
 import bcrypt from "bcrypt";
 import { sendErrorCode } from "./sendError";
+import { sendAuthEmail } from "../lib/mailer/mail-defintion";
+import randomstring from "randomstring";
+import moment from "moment";
 
 const router = Router();
 
@@ -62,6 +65,23 @@ router.post("/", (req, res) => {
         email_auth: false,
       });
       if (account) {
+        const token = randomstring.generate(12);
+        const code = randomstring.generate(6);
+
+        EmailAuths.create({
+          userid,
+          token,
+          code,
+          expired: moment().add(3, "minutes"),
+        });
+
+        sendAuthEmail(
+          email,
+          `"SSUSTAGRAM" <${process.env.SMTP_FROM}>`,
+          userid,
+          token,
+          code
+        );
         res.sendStatus(200);
       } else {
         sendErrorCode(res, e);

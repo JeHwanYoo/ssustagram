@@ -134,7 +134,7 @@ export default {
             alert(
               "귀하의 메일로 인증코드가 발송될 예정입니다. 3분이 지나면 가입이 불가능하니 유의해주시기 바랍니다."
             );
-            this.$router.replace({ name: "login" });
+            this.$router.replace({ path: "/" });
           }
         } catch (e) {
           alert("입력 형식이 잘못되었습니다.");
