@@ -7,13 +7,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      a_id: {
+      from: {
         allowNull: false,
-        type: Sequelize.STRING,
-      },
-      b_id: {
-        allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.JSON,
       },
       messages: {
         allowNull: false,

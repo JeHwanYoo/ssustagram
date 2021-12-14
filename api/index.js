@@ -12,6 +12,7 @@ import my from "./my";
 import images from "./images";
 import posts from "./posts";
 import follow from "./follow";
+import rooms from "./rooms";
 
 require("dotenv").config();
 
@@ -37,6 +38,7 @@ app.use("/my", my);
 app.use("/images", images);
 app.use("/posts", posts);
 app.use("/follow", follow);
+app.use("/rooms", rooms);
 
 module.exports = {
   path: "/api",

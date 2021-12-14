@@ -11,10 +11,10 @@
           <b-list-group-item
             class="rounded-0 border-right-0 border-left-0"
             v-for="follow in follows"
-            :key="follow.userid"
+            :key="follow.room_id"
             button
-            :active="isActive(follow.userid)"
-            @click="select(follow.userid)"
+            :active="isActive(follow.room_id)"
+            @click="select(follow.room_id)"
           >
             <b-avatar class="mr-2" :text="follow.name[0]"> </b-avatar>
             <div class="d-inline-block text-truncate" style="width: 80%">
@@ -64,115 +64,6 @@
 <script>
 import AppInput from "~/components/AppInput.vue";
 import AppButton from "~/components/AppButton.vue";
-import moment from "moment";
-// 테스트 데이터 입니다.
-const mockFollows = [
-  { userid: "abcd0123", name: "foo" },
-  { userid: "qwer1234", name: "moo" },
-  { userid: "football", name: "manager" },
-  { userid: "doosdsad", name: "sadsadsa" },
-  { userid: "asdsasad", name: "wqeqwew" },
-  { userid: "sxsdas", name: "asdadas" },
-  { userid: "sadsa", name: "asdsalk" },
-  { userid: "lsfkasm", name: "dsadks" },
-  { userid: "xcamsamds", name: "dsadasdsaj" },
-  { userid: "sdasdklaskd", name: "asdsalkmdas" },
-  { userid: "sadamsdlas", name: "asdklasmdkjo" },
-  { userid: "sadlksldj", name: "dsakldajsadasksdskl" },
-];
-
-const mockChats = [
-  {
-    from: "a",
-    content: "안녕하세요.",
-    create_at: moment(1588752366000).format("YYYY-MM-DD hh:mm:ss"),
-  },
-  {
-    from: "a",
-    content: "궁금한점이 있어서요.\n혹시 환불을 어떻게 받나요?",
-    create_at: moment(1588752370000).format("YYYY-MM-DD hh:mm:ss"),
-  },
-  {
-    from: "b",
-    content: "환불 안됩니다.",
-    create_at: moment(1588752550000).format("YYYY-MM-DD hh:mm:ss"),
-  },
-  {
-    from: "a",
-    content: "안녕하세요.",
-    create_at: moment(1588752366000).format("YYYY-MM-DD hh:mm:ss"),
-  },
-  {
-    from: "a",
-    content: "궁금한점이 있어서요.\n혹시 환불을 어떻게 받나요?",
-    create_at: moment(1588752370000).format("YYYY-MM-DD hh:mm:ss"),
-  },
-  {
-    from: "b",
-    content: "환불 안됩니다.",
-    create_at: moment(1588752550000).format("YYYY-MM-DD hh:mm:ss"),
-  },
-  {
-    from: "a",
-    content: "안녕하세요.",
-    create_at: moment(1588752366000).format("YYYY-MM-DD hh:mm:ss"),
-  },
-  {
-    from: "a",
-    content: "궁금한점이 있어서요.\n혹시 환불을 어떻게 받나요?",
-    create_at: moment(1588752370000).format("YYYY-MM-DD hh:mm:ss"),
-  },
-  {
-    from: "b",
-    content: "환불 안됩니다.",
-    create_at: moment(1588752550000).format("YYYY-MM-DD hh:mm:ss"),
-  },
-  {
-    from: "a",
-    content: "안녕하세요.",
-    create_at: moment(1588752366000).format("YYYY-MM-DD hh:mm:ss"),
-  },
-  {
-    from: "a",
-    content: "궁금한점이 있어서요.\n혹시 환불을 어떻게 받나요?",
-    create_at: moment(1588752370000).format("YYYY-MM-DD hh:mm:ss"),
-  },
-  {
-    from: "b",
-    content: "환불 안됩니다.",
-    create_at: moment(1588752550000).format("YYYY-MM-DD hh:mm:ss"),
-  },
-  {
-    from: "a",
-    content: "안녕하세요.",
-    create_at: moment(1588752366000).format("YYYY-MM-DD hh:mm:ss"),
-  },
-  {
-    from: "a",
-    content: "궁금한점이 있어서요.\n혹시 환불을 어떻게 받나요?",
-    create_at: moment(1588752370000).format("YYYY-MM-DD hh:mm:ss"),
-  },
-  {
-    from: "b",
-    content: "환불 안됩니다.",
-    create_at: moment(1588752550000).format("YYYY-MM-DD hh:mm:ss"),
-  },
-  {
-    from: "a",
-    content: "안녕하세요.",
-    create_at: moment(1588752366000).format("YYYY-MM-DD hh:mm:ss"),
-  },
-  {
-    from: "a",
-    content: "궁금한점이 있어서요.\n혹시 환불을 어떻게 받나요?",
-    create_at: moment(1588752370000).format("YYYY-MM-DD hh:mm:ss"),
-  },
-  {
-    from: "b",
-    content: "환불 안됩니다.",
-    create_at: moment(1588752550000).format("YYYY-MM-DD hh:mm:ss"),
-  },
-];
 
 export default {
   layout: "defaultWithTitle",
@@ -182,17 +73,17 @@ export default {
   },
   data() {
     return {
-      follows: mockFollows,
-      selected: "abcd0123",
-      chats: mockChats,
+      follows: [],
+      selected: "",
+      chats: [],
     };
   },
   methods: {
-    isActive(userid) {
-      return this.selected === userid;
+    isActive(room_id) {
+      return this.selected === room_id;
     },
-    select(userid) {
-      this.selected = userid;
+    select(room_id) {
+      this.selected = room_id;
     },
     getFloat(from) {
       if (from === "b")
@@ -208,8 +99,12 @@ export default {
       this.$refs["chat-box"].scrollTop = this.$refs["chat-box"].scrollHeight;
     },
   },
-  mounted() {
-    this.scrollDown();
+  async mounted() {
+    const resposne = await this.$axios.get("/api/rooms");
+    this.follows = resposne.data;
+    console.log(this.follows);
+    this.selected = this.follows[0].room_id;
+    // this.scrollDown();
   },
 };
 </script>

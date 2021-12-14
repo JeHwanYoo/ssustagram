@@ -1,10 +1,11 @@
 import { Router } from "express";
-import { Accounts, Auths, Profiles } from "../models";
+import { Accounts, Auths, Profiles, Rooms } from "../models";
 import bcrypt from "bcrypt";
 import { sendErrorCode } from "./sendError";
 import { sendAuthEmail } from "../lib/mailer/mail-defintion";
 import randomstring from "randomstring";
 import moment from "moment";
+import { v4 as uuidv4 } from "uuid";
 
 const router = Router();
 
@@ -78,6 +79,17 @@ router.post("/", (req, res) => {
         Profiles.create({
           userid,
           avatar: null,
+        });
+
+        const accounts = await Accounts.findAll();
+        const list = accounts.filter((v) => v.userid !== userid);
+
+        list.forEach((v) => {
+          Rooms.create({
+            room_id: uuidv4(),
+            from: [v.userid, userid],
+            messages: [],
+          });
         });
 
         sendAuthEmail(

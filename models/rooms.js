@@ -18,12 +18,8 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         allowNull: false,
       },
-      a_id: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      b_id: {
-        type: DataTypes.STRING,
+      from: {
+        type: DataTypes.JSON,
         allowNull: false,
       },
       messages: {
