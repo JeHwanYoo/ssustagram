@@ -40,4 +40,10 @@ module.exports = {
   modules: ["bootstrap-vue/nuxt", "@nuxtjs/axios"],
   plugins: ["~/plugins/bootstrap-vue-icons.js"],
   serverMiddleware: ["~/api/index.js"],
+	server: {
+		host: '0'
+	},
+	axios: {
+		baseURL: 'http://web.expertly.info:8033',
+	}
 };

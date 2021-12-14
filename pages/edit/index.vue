@@ -54,7 +54,7 @@ export default {
     const response = await this.$axios.get(
       `/api/images/${this.$route.query.imgid}`
     );
-    this.initFiles = JSON.parse(response.data.files);
+    this.initFiles = response.data.files;
     this.initText = response.data.text;
   },
 };

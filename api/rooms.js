@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
     const list = [];
 
     rooms.forEach((v) => {
-      const from = JSON.parse(v.from);
+      const from = v.from;
       if (from.includes(user.userid)) {
         list.push({
           room_id: v.room_id,
@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
     });
 
     for (let i = 0; i < list.length; i++) {
-      const from = JSON.parse(list[i].from);
+      const from = list[i].from;
       let index = from.indexOf(user.userid);
 
       if (index === 1) index = 0;
@@ -75,7 +75,7 @@ router.post("/:room_id", async (req, res) => {
       },
     });
 
-    const messages = JSON.parse(room.messages);
+    const messages = room.messages;
 
     messages.push({
       content,

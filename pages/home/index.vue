@@ -30,18 +30,18 @@ export default {
       pagination: mockPagination,
     };
   },
-
   async mounted() {
     setTimeout(async () => {
       const response = await this.$axios.get("/api/posts");
       const images = response.data;
-
+			
       for (let i = 0; i < images.length; i++) {
-        images[i]["files"] = JSON.parse(images[i]["files"]);
-        images[i]["hashtags"] = JSON.parse(images[i]["hashtags"]);
+        // images[i]["files"] = JSON.parse(images[i]["files"]);
+        // images[i]["hashtags"] = JSON.parse(images[i]["hashtags"]);
         this.posts.push(images[i]);
       }
-    }, 500);
+
+    }, 200);
   },
 };
 </script>

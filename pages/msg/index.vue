@@ -116,7 +116,7 @@ export default {
       const { you, room } = response.data;
 
       this.you = you;
-      this.chats = JSON.parse(room.messages);
+      this.chats = room.messages;
     },
     getFloat(from) {
       if (from === this.you)

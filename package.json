@@ -51,6 +51,7 @@
     "eslint-friendly-formatter": "^4.0.1",
     "eslint-loader": "^2.1.1",
     "eslint-plugin-vue": "^4.0.0",
+    "pm2": "^5.1.2",
     "sequelize-cli": "^6.3.0"
   }
 }
