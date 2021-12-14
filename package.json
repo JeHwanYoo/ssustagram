@@ -18,9 +18,9 @@
     "migrate-local": "sequelize db:migrate",
     "migrate-server": "WHERE=server sequelize db:migrate",
     "status-local": "sequelize db:migrate:status",
-    "status-server": "WHERE=server sequelize db:status",
+    "status-server": "WHERE=server sequelize db:migrate:status",
     "undo-local": "sequelize db:migrate:undo",
-    "undo-server": "WHERE=server sequelize db:undo"
+    "undo-server": "WHERE=server sequelize db:migrate:undo"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
