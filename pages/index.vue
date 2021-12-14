@@ -56,10 +56,20 @@ export default {
     },
   },
   methods: {
-    onSubmit(event) {
+    async onSubmit(event) {
       event.preventDefault();
       if (this.validAll) {
-        this.$router.replace({ name: "home" });
+        try {
+          const response = await this.$axios.post("/api/login", {
+            userid: this.userid,
+            password: this.password,
+          });
+          this.$router.replace({ name: "home" });
+        } catch (e) {
+          alert(
+            "인증이 되지 않은 id이거나, 아이디 혹은 패스워드가 잘못되었습니다."
+          );
+        }
       } else {
         alert("아이디 혹은 패스워드를 입력하지 않았습니다.");
       }
