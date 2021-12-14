@@ -11,6 +11,7 @@ import logout from "./logout";
 import my from "./my";
 import images from "./images";
 import posts from "./posts";
+import follow from "./follow";
 
 require("dotenv").config();
 
@@ -35,6 +36,7 @@ app.use("/logout", logout);
 app.use("/my", my);
 app.use("/images", images);
 app.use("/posts", posts);
+app.use("/follow", follow);
 
 module.exports = {
   path: "/api",

@@ -15,10 +15,16 @@
               class="float-right"
               variant="light"
               v-if="follow.following"
+              @click="doUnfollow(follow.userid)"
             >
               팔로잉
             </b-button>
-            <b-button class="float-right" variant="primary" v-else>
+            <b-button
+              class="float-right"
+              variant="primary"
+              @click="doFollow(follow.userid)"
+              v-else
+            >
               팔로우
             </b-button>
           </b-list-group-item>
@@ -40,8 +46,36 @@ export default {
   layout: "defaultWithTitle",
   data() {
     return {
-      follows: mockFollows,
+      follows: [],
     };
+  },
+  methods: {
+    async doFollow(userid) {
+      try {
+        await this.$axios.post(`/api/follow/${userid}`);
+        const response = await this.$axios.get("/api/follow/list");
+        this.follows = response.data;
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async doUnfollow(userid) {
+      try {
+        await this.$axios.delete(`/api/follow/${userid}`);
+        const response = await this.$axios.get("/api/follow/list");
+        this.follows = response.data;
+      } catch (e) {
+        console.log(e);
+      }
+    },
+  },
+  async mounted() {
+    try {
+      const response = await this.$axios.get("/api/follow/list");
+      this.follows = response.data;
+    } catch (e) {
+      console.log(e);
+    }
   },
 };
 </script>
