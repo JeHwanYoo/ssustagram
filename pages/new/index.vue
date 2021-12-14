@@ -18,7 +18,7 @@ export default {
           text,
         });
 
-        this.$router.replace({ name: "home" });
+        this.$router.push({ name: "home" });
       } catch (e) {
         alert("업로드에 실패했습니다!");
       }

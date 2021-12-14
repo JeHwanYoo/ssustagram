@@ -27,7 +27,7 @@ router.get("/", async (req, res) => {
     // me: true,
 
     let sql =
-      "SELECT imgid, Images.userid, name, files, text, hashtags, Images.created_at as created_at, Images.updated_at as updated_at FROM Images JOIN Accounts USING(userid)";
+      "SELECT imgid, Images.userid, name, files, text, hashtags, Images.created_at as created_at, Images.updated_at as updated_at FROM Images JOIN Accounts USING(userid) ";
 
     const result = await sequelize.query(sql);
 

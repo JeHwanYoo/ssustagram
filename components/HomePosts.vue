@@ -3,7 +3,7 @@
     <b-row v-if="posts && posts.length > 0">
       <b-col cols="4" v-for="post in posts" :key="post.imgid">
         <b-card class="mb-3">
-          <app-carousel :images="post.files" />
+          <app-carousel :images="post.files" :key="String(post.updated_at)" />
           <b-card-body>
             <b-card-text v-html="applyForHashtags(post.text, post.hashtags)">
             </b-card-text>
@@ -35,7 +35,7 @@
                   <b-btn
                     variant="warning"
                     class="mb-2 py-1 w-75"
-                    :to="{ name: 'edit' }"
+                    :to="{ name: 'edit', query: { imgid: post.imgid } }"
                   >
                     수정
                   </b-btn>

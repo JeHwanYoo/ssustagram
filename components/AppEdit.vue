@@ -45,6 +45,7 @@
     </b-row>
     <b-row v-if="encodeds && encodeds.length > 0">
       <b-col cols="12" class="text-center">
+        <b-btn size="lg" variant="danger" @click="remove">삭제!</b-btn>
         <b-btn size="lg" variant="success" @click="upload">업로드!</b-btn>
       </b-col>
     </b-row>
@@ -88,6 +89,14 @@ export default {
       default: "",
     },
   },
+  watch: {
+    initFiles(newVal) {
+      this.encodeds = newVal;
+    },
+    initText(newVal) {
+      this.text = newVal;
+    },
+  },
   data() {
     return {
       encodeds: [],
@@ -115,6 +124,9 @@ export default {
         text: this.text,
       });
     },
+    remove() {
+      this.$emit("remove");
+    },
     removeFile(index) {
       this.encodeds.splice(index, 1);
     },
@@ -124,10 +136,6 @@ export default {
     onReplaced(file, no) {
       encodingImage(this.encodeds, file, 600, 600, no);
     },
-  },
-  mounted() {
-    this.encodeds = this.initFiles;
-    this.text = this.initText;
   },
 };
 </script>

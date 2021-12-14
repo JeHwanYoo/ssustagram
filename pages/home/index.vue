@@ -30,6 +30,7 @@ export default {
       pagination: mockPagination,
     };
   },
+
   async mounted() {
     const response = await this.$axios.get("/api/posts");
     const images = response.data;

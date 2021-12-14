@@ -4,6 +4,7 @@
     :initFiles="initFiles"
     :initText="initText"
     @upload="onUpload"
+    @remove="onRemoved"
   />
 </template>
 
@@ -24,14 +25,37 @@ export default {
   },
   data() {
     return {
-      initFiles: mockImages,
-      initText: mockText,
+      initFiles: [],
+      initText: "",
     };
   },
   methods: {
-    onUpload({ encodeds, text }) {
-      console.log(encodeds, text);
+    async onUpload({ encodeds, text }) {
+      try {
+        await this.$axios.patch(`/api/images/${this.$route.query.imgid}`, {
+          files: encodeds,
+          text,
+        });
+        this.$router.push({ name: "home" });
+      } catch (e) {
+        alert("수정에 실패했습니다!");
+      }
     },
+    async onRemoved() {
+      try {
+        await this.$axios.delete(`/api/images/${this.$route.query.imgid}`);
+        this.$router.push({ name: "home" });
+      } catch (e) {
+        alert("삭제에 실패했습니다!");
+      }
+    },
+  },
+  async mounted() {
+    const response = await this.$axios.get(
+      `/api/images/${this.$route.query.imgid}`
+    );
+    this.initFiles = JSON.parse(response.data.files);
+    this.initText = response.data.text;
   },
 };
 </script>
