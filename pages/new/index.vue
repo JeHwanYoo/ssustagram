@@ -11,8 +11,17 @@ export default {
     AppUpload,
   },
   methods: {
-    onUpload({ encodeds, text }) {
-      console.log(encodeds, text);
+    async onUpload({ encodeds, text }) {
+      try {
+        await this.$axios.post("/api/images", {
+          files: encodeds,
+          text,
+        });
+
+        this.$router.replace({ name: "home" });
+      } catch (e) {
+        alert("업로드에 실패했습니다!");
+      }
     },
   },
 };
