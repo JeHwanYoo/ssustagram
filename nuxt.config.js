@@ -37,6 +37,7 @@ module.exports = {
       }
     },
   },
-  modules: ["bootstrap-vue/nuxt"],
+  modules: ["bootstrap-vue/nuxt", "@nuxtjs/axios"],
   plugins: ["~/plugins/bootstrap-vue-icons.js"],
+  serverMiddleware: ["~/api/index.js"],
 };

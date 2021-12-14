@@ -119,7 +119,7 @@ export default {
     },
   },
   methods: {
-    onSubmit(event) {
+    async onSubmit(event) {
       event.preventDefault();
       if (this.validAll) {
         console.log(
@@ -129,7 +129,9 @@ export default {
           this.password,
           this.passwordCheck
         );
-        this.$router.replace({ name: "home" });
+        const data = await this.$axios.get("/api/get");
+        console.log(data);
+        // this.$router.replace({ name: "home" });
       } else {
         alert("입력 형식이 잘못되었습니다.");
       }
