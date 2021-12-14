@@ -1,49 +1,45 @@
 import { Router } from "express";
 import { Accounts } from "../models";
 import bcrypt from "bcrypt";
-import randomstring from "randomstring";
+import { sendErrorCode } from "./sendError";
 
 const router = Router();
 
 /** userid 중복확인 */
 router.get("/users/:userid", async (req, res) => {
   const userid = req.params["userid"];
-
   try {
     const accounts = await Accounts.findOne({
       where: {
         userid,
       },
     });
-    if (accounts.length > 0) {
+    if (accounts) {
       res.send({ result: true });
     } else {
       res.send({ result: false });
     }
   } catch (e) {
-    res.status(400);
-    res.send(e);
+    sendErrorCode(res, e);
   }
 });
 
 /** 이메일 중복확인 */
 router.get("/emails/:email", async (req, res) => {
   const email = req.params["email"];
-
   try {
     const accounts = await Accounts.findOne({
       where: {
         email,
       },
     });
-    if (accounts.length > 0) {
+    if (accounts) {
       res.send({ result: true });
     } else {
       res.send({ result: false });
     }
   } catch (e) {
-    res.status(400);
-    res.send(e);
+    sendErrorCode(res, e);
   }
 });
 
@@ -51,7 +47,7 @@ router.get("/emails/:email", async (req, res) => {
 router.post("/", (req, res) => {
   const { userid, email, name, password } = req.body;
 
-  bcrypt.hash(password, 10, async (err, salt) => {
+  bcrypt.hash(password, 10, async (err, hash) => {
     if (err) {
       res.status(400);
       res.send(err);
@@ -62,17 +58,16 @@ router.post("/", (req, res) => {
         userid,
         email,
         name,
-        password,
+        password: hash,
+        email_auth: false,
       });
       if (account) {
         res.sendStatus(200);
       } else {
-        res.status(400);
-        res.send(e);
+        sendErrorCode(res, e);
       }
     } catch (e) {
-      res.status(400);
-      res.send(e);
+      sendErrorCode(res, e);
     }
   });
 });

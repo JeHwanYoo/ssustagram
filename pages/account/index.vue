@@ -122,17 +122,20 @@ export default {
     async onSubmit(event) {
       event.preventDefault();
       if (this.validAll) {
-        console.log(
-          this.userid,
-          this.email,
-          this.name,
-          this.password,
-          this.passwordCheck
-        );
         try {
-          const data = await this.$axios.get("/api/account/users/formail0001");
-          console.log(data);
-          // this.$router.replace({ name: "home" });
+          const response = await this.$axios.post("/api/account/", {
+            userid: this.userid,
+            email: this.email,
+            name: this.name,
+            password: this.password,
+          });
+
+          if (response.status === 200) {
+            alert(
+              "귀하의 메일로 인증코드가 발송될 예정입니다. 3분이 지나면 가입이 불가능하니 유의해주시기 바랍니다."
+            );
+            this.$router.replace({ name: "login" });
+          }
         } catch (e) {
           alert("입력 형식이 잘못되었습니다.");
         }
@@ -155,11 +158,37 @@ export default {
     onPasswordCheckInput(passwordCheck) {
       this.passwordCheck = passwordCheck;
     },
-    checkUserIdDup() {
-      this.userIdCheck = 1;
+    async checkUserIdDup() {
+      try {
+        if (!this.isAlphanumeric) return;
+
+        const response = await this.$axios.get(
+          `/api/account/users/${this.userid}`
+        );
+        if (!response.data.result) {
+          this.userIdCheck = 1;
+        } else {
+          this.userIdCheck = -1;
+        }
+      } catch (e) {
+        alert("오류가 발생했습니다.");
+      }
     },
-    checkEmailDup() {
-      this.emailCheck = 1;
+    async checkEmailDup() {
+      try {
+        if (!this.isEmail) return;
+
+        const response = await this.$axios.get(
+          `/api/account/emails/${this.email}`
+        );
+        if (!response.data.result) {
+          this.emailCheck = 1;
+        } else {
+          this.emailCheck = -1;
+        }
+      } catch (e) {
+        alert("오류가 발생했습니다.");
+      }
     },
   },
   data() {
