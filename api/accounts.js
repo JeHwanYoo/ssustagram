@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Accounts, EmailAuths } from "../models";
+import { Accounts, EmailAuths, Profiles } from "../models";
 import bcrypt from "bcrypt";
 import { sendErrorCode } from "./sendError";
 import { sendAuthEmail } from "../lib/mailer/mail-defintion";
@@ -73,6 +73,11 @@ router.post("/", (req, res) => {
           token,
           code,
           expired: moment().add(3, "minutes"),
+        });
+
+        Profiles.create({
+          userid,
+          avatar: null,
         });
 
         sendAuthEmail(

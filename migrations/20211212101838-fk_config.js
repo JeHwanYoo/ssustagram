@@ -57,7 +57,7 @@ module.exports = {
       onDelete: "cascade",
       onUpdate: "cascade",
     });
-    await queryInterface.addConstraint("email_auths", {
+    await queryInterface.addConstraint("EmailAuths", {
       fields: ["userid"],
       type: "foreign key",
       name: "fk_email_auths",
