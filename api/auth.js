@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { sendErrorCode } from "./sendError";
-import { EmailAuths, Accounts } from "../models";
+import { Auths, Accounts } from "../models";
 const router = Router();
 
 router.get("/:userid", async (req, res) => {
@@ -12,7 +12,7 @@ router.get("/:userid", async (req, res) => {
     return;
   }
 
-  const user = await EmailAuths.findOne({
+  const user = await Auths.findOne({
     where: {
       userid,
       token,
@@ -42,7 +42,7 @@ router.post("/", async (req, res) => {
   const { userid, token, code } = req.body;
 
   try {
-    const user = await EmailAuths.findOne({
+    const user = await Auths.findOne({
       where: {
         userid,
         token,
@@ -69,7 +69,7 @@ router.post("/", async (req, res) => {
           },
         }
       );
-      await EmailAuths.destroy({
+      await Auths.destroy({
         where: {
           userid,
         },

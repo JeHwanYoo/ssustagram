@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Accounts, EmailAuths, Profiles } from "../models";
+import { Accounts, Auths, Profiles } from "../models";
 import bcrypt from "bcrypt";
 import { sendErrorCode } from "./sendError";
 import { sendAuthEmail } from "../lib/mailer/mail-defintion";
@@ -68,7 +68,7 @@ router.post("/", (req, res) => {
         const token = randomstring.generate(12);
         const code = randomstring.generate(6);
 
-        EmailAuths.create({
+        Auths.create({
           userid,
           token,
           code,

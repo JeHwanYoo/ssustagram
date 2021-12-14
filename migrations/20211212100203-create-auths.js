@@ -1,7 +1,7 @@
 "use strict";
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("EmailAuths", {
+    await queryInterface.createTable("Auths", {
       userid: {
         primaryKey: true,
         allowNull: false,
@@ -30,6 +30,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("EmailAuths");
+    await queryInterface.dropTable("Auths");
   },
 };
